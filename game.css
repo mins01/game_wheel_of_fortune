@@ -2,15 +2,19 @@
 
 .wof-container{
     box-sizing: border-box;
+    color:#000;
 }
 .wof-wrap{
     --wheel-width:600px;
     --wheel-height:var(--wheel-width);
+    --spin-dir:1;
     position: relative;
     width:var(--wheel-width);
     margin:0 auto;
 }
-
+.wof-wrap.spin-dir-left{
+    --spin-dir:-1;
+}
 
 .wof-arrow-wrap{
     position: absolute;
@@ -70,26 +74,9 @@
     position: relative;
 }
 
-/* .wof-wrap .wof-wheel-disc-el{
-    animation-duration: 2s;
-    animation-name: rolling;
-    animation-fill-mode: forwards ;
-    -webkit-animation-fill-mode: forwards;
-    animation-iteration-count: 0;
-    animation-timing-function: linear;
-    animation-play-state: paused;    
-}
-.wof-wrap.rolling .wof-wheel-disc-el{
-    animation-play-state: running;
-    animation-iteration-count: infinite;
-}
-.wof-wrap.end .wof-wheel-disc-el{
-    
-    transform: rotate(70deg);
-} */
 .wof-wheel-disc-el-section{
-    --roate-1:0deg;
-    --roate-2:45deg;
+    --section-line-1-rotate:0deg;
+    --section-line-2-rotate:45deg;
 }
 .wof-wheel-disc-el-section-line{
     width:0px;
@@ -102,10 +89,10 @@
     transform: rotate(0deg);
 }
 .wof-wheel-disc-el-section-line-1{
-    transform: rotate(var(--roate-1));
+    transform: rotate(clac(var(--section-line-1-rotate) * -1));
 }
 .wof-wheel-disc-el-section-line-2{
-    transform: rotate(var(--roate-2));
+    transform: rotate(calc(var(--section-line-2-rotate) * -1));
 }
 .wof-wheel-disc-el-section-label{
     width:2px;
@@ -113,7 +100,7 @@
     top:0; left:calc(50% - 2px / 2);
     transform-origin: center bottom;
     position: absolute;
-    transform: rotate(calc( ( var(--roate-2) + var(--roate-1) ) /2   ));
+    transform: rotate(calc( ( var(--section-line-2-rotate) + var(--section-line-1-rotate) ) /2 *-1  ));
 
     display: flex;
     flex-direction: row;
@@ -122,38 +109,64 @@
     justify-content: center;
     /* align-items: center; */
     padding-top:2em;
+    text-align: center;
 }
 
 .wof-wrap{
     --wheel-rotate:0deg;
 }
 
-.wof-wrap.rolling[data-rolling] .wof-wheel-disc-el{
-    /* animation-name: rolling; */
-    animation-duration: 3s;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
-	animation-timing-function: cubic-bezier(0.22, 0.21, 0.65, 1.05) ;
+.wof-wrap.on[data-spin="inf"]{
+    --wheel-rotate:0deg
 }
-.wof-wrap.rolling[data-rolling="inf"] .wof-wheel-disc-el{
-    animation-name: rolling-inf;
-    animation-duration: 2s;
+.wof-wrap.pause  .wof-wheel-disc-el{
+    animation-play-state: paused;
+}
+
+.wof-wrap.on[data-spin] .wof-wheel-disc-el{
+    animation-name: none;
+    animation-duration: 3s;
+    animation-iteration-count: 0;
+    animation-fill-mode: none;
+	animation-timing-function: linear ;
+}
+
+.wof-wrap.on[data-spin="inf"] .wof-wheel-disc-el{
+    animation-name: spin-inf;
+    animation-duration: 3s;
     animation-iteration-count: infinite;
     animation-fill-mode: both ;
     animation-timing-function: linear ;
-
 }
-.wof-wrap.rolling[data-rolling="end"] .wof-wheel-disc-el{ animation-name: rolling-end; }
-
+.wof-wrap.on[data-spin="stop"] .wof-wheel-disc-el{
+    animation-name: spin-stop;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+    animation-fill-mode: both ;
+    animation-timing-function: cubic-bezier(0.29, 0.26, 0.68, 1.04) ;
+}
+.wof-wrap.on[data-spin="now"] .wof-wheel-disc-el{
+    animation-name: spin-now;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards ;
+    animation-timing-function: linear ;
+}
 
 
 /* 애니메이션 처리 */
-
-@keyframes rolling-inf {
-    from {transform: rotate( calc(-3600deg ));}
-    to {transform: rotate(0deg);}
+@keyframes spin-inf {
+    from {transform: rotate( calc(-3600deg * var(--spin-dir) + var(--wheel-rotate ) ));}
+    to {transform: rotate(0deg + var(--wheel-rotate ));}
 }
-@keyframes rolling-end { from {transform: rotate( 0deg );} to {transform: rotate(  calc( 3600deg + var(--wheel-rotate ) ) ); } }
+@keyframes spin-stop { 
+    from {transform: rotate( calc( -3600deg  * var(--spin-dir) + var(--wheel-rotate ) ) );}
+    to {transform: rotate(  calc( 360deg * var(--spin-dir) + var(--wheel-rotate ) ) ); } 
+}
+@keyframes spin-now { 
+    /* from {transform: rotate( 0deg );} */
+    to {transform: rotate(  var(--wheel-rotate ) ); } 
+}
 
 
 

@@ -38,34 +38,17 @@
 	<!-- //meta og -->
 
 	<link rel="stylesheet" href="game.css">
-	
-	<script>
-		function matrix2angle(matrix){
-			// https://css-tricks.com/get-value-of-css-rotation-through-javascript/
-			var values = matrix.split('(')[1];
-				values = values.split(')')[0];
-				values = values.split(',');
-			var a = values[0];
-			var b = values[1];
-			var c = values[2];
-			var d = values[3];
-
-			var scale = Math.sqrt(a*a + b*b);
-
-			// arc sin, convert from radians to degrees, round
-			// DO NOT USE: see update below
-			var sin = b/scale;
-			var angle = Math.round(Math.asin(sin) * (180/Math.PI));
-			return angle;
-		}
-
-		function stopWheel(el,deg){
-			el.dataset.rolling='inf'
-			el.style.setProperty('--wheel-rotate',deg+'deg')
-			setTimeout(()=>{
-				el.dataset.rolling='end'
-			},100)
-		}
+	<!-- <script src="WheelOfFortune.js" type="module"></script> -->
+	<script type="module">
+		import WheelOfFortune from './WheelOfFortune.js';
+		let wof = new WheelOfFortune();
+		globalThis.wof = wof;
+		window.addEventListener('load',(event)=>{
+			wof.wrap = document.querySelector('#wof-01');
+			wof.wheel_disc_el.onanimationend = (event) => {
+				console.log('deg',wof.wheel_rotate);
+			};
+		})
 	</script>
 	
 </head>
@@ -74,7 +57,7 @@
 		<h1>돌림판 : wheel of fortune</h1>
 		<div>
 			<div class="wof-container">
-				<div class="wof-wrap rolling" id="wof-01">
+				<div class="wof-wrap on" id="wof-01">
 					<div class="wof-arrow-wrap">
 						<div class="wof-arrow-box">
 							<div class="wof-arrow-el">
@@ -86,28 +69,81 @@
 						<div class="wof-wheel-box">
 							<div class="wof-wheel-disc">
 								<div class="wof-wheel-disc-el">
-									<div class="wof-wheel-disc-el-section" style="--wheel-rotate-1:0deg;--wheel-rotate-2:99deg">
-										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div>
+									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:0deg;--section-line-2-rotate:90deg">
+										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
 										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
-										<div class="wof-wheel-disc-el-section-label">라벨</div>
+										<div class="wof-wheel-disc-el-section-label">라벨1</div>
 									</div>
-									<div class="wof-wheel-disc-el-section">2</div>
-									<div class="wof-wheel-disc-el-section">3</div>
-									<div class="wof-wheel-disc-el-section">4</div>
+									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:90deg;--section-line-2-rotate:180deg">
+										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
+										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
+										<div class="wof-wheel-disc-el-section-label">라벨2</div>
+									</div>
+									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:180deg;--section-line-2-rotate:260deg;">
+										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
+										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
+										<div class="wof-wheel-disc-el-section-label">라벨3</div>
+									</div>
+									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:260deg;--section-line-2-rotate:280deg;">
+										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
+										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
+										<div class="wof-wheel-disc-el-section-label">라벨4</div>
+									</div>
+									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:280deg;--section-line-2-rotate:360deg;">
+										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
+										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
+										<div class="wof-wheel-disc-el-section-label">라벨5</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="wof-btns">
-						<button class="btn btn-info" type="button" onclick="document.querySelector('#wof-01').classList.toggle('rolling')">회전 on/off</button>
-						<button class="btn btn-info" type="button" onclick="document.querySelector('#wof-01').dataset.rolling='inf'">회전</button>
-						<button class="btn btn-info" type="button" onclick="stopWheel(document.querySelector('#wof-01'),0)">멈춤 0 도</button>
-						<button class="btn btn-info" type="button" onclick="stopWheel(document.querySelector('#wof-01'),45)">멈춤 45 도</button>
-						<button class="btn btn-info" type="button" onclick="stopWheel(document.querySelector('#wof-01'),90)">멈춤 90 도</button>
-						<button class="btn btn-info" type="button" onclick="stopWheel(document.querySelector('#wof-01'),180)">멈춤 180 도</button>
-						<button class="btn btn-info" type="button" onclick="stopWheel(document.querySelector('#wof-01'),180)">멈춤 180 도</button>
-						<button class="btn btn-info" type="button" onclick="alert(matrix2angle(getComputedStyle(document.querySelector('#wof-01 .wof-wheel-disc-el')).transform)+'deg');">각도 확인</button>
-						<button class="btn btn-info" type="button" onclick="alert(getComputedStyle( document.querySelector('#wof-01')).getPropertyValue('--wheel-rotate'));">각도 확인</button>
+						<div class="">
+							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.toggle('on')">회전 : on/off</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.remove('spin-dir-left')">회전방향:오른쪽(default)</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.add('spin-dir-left')">회전방향:왼쪽</button>
+						</div>
+						<div class="">
+							<button class="btn btn-info m-1" type="button" onclick="wof.spin()">회전</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinReset()">회전 초기화</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.toggle('pause')">일시정지 on/off</button>
+							<button class="btn btn-info m-1" type="button" onclick="alert(wof.wheel_rotate)">회전 deg 확인</button>
+						</div>
+						
+						<div class="">
+							.spinAndStop()
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(-90)">-90도</button>
+
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(0)">0도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(45)">45도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(90)">90도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(100)">100도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(180)">180도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(270)">270도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(360)">360도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(400)">400도</button>
+							<br>
+							<div class="input-group m-1">
+								<input type="number" min="-360"  max="360"  class="form-control" placeholder="deg" value="0" id="spinAndStop-deg-01">
+								<button class="btn btn-outline-secondary" type="button" onclick="wof.spinAndStop( document.querySelector('#spinAndStop-deg-01').value)">.spinAndStop(int)</button>
+							</div>
+						</div>
+						<div class="">
+							.spinAndStopNow(int)
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(0)">0도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(45)">45도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(90)">90도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(100)">100도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(180)">180도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(270)">270도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(360)">360도</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(400)">400도</button>
+							<div class="input-group m-1">
+								<input type="number" min="-360"  max="360"  class="form-control" placeholder="deg" value="0" id="spinAndStopNow-deg-01">
+								<button class="btn btn-outline-secondary" type="button" onclick="wof.spinAndStopNow( document.querySelector('#spinAndStopNow-deg-01').value)">.spinAndStopNow(int)</button>
+							</div>
+						</div>
 						
 					</div>
 				</div>
