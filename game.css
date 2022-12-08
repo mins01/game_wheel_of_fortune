@@ -88,9 +88,9 @@
     position: absolute;
     transform: rotate(0deg);
 }
-.wof-wheel-disc-el-section-line-1{
+/* .wof-wheel-disc-el-section-line-1{
     transform: rotate(clac(var(--section-line-1-rotate) * -1));
-}
+} */
 .wof-wheel-disc-el-section-line-2{
     transform: rotate(calc(var(--section-line-2-rotate) * -1));
 }
