@@ -1,0 +1,159 @@
+@charset "utf-8";
+
+.wof-container{
+    box-sizing: border-box;
+}
+.wof-wrap{
+    --wheel-width:600px;
+    --wheel-height:var(--wheel-width);
+    position: relative;
+    width:var(--wheel-width);
+    margin:0 auto;
+}
+
+
+.wof-arrow-wrap{
+    position: absolute;
+    top:0;left:0;right:0;
+    text-align: center;
+    z-index: 2;
+}
+.wof-arrow-box{
+    width:var(--wheel-width);
+    margin:0 auto
+}
+.wof-arrow-el{
+    font-size:80px;
+    color: #000;
+    filter: drop-shadow(2px 2px 5px rgb(230, 255, 91));
+    line-height: 1em;
+}
+
+
+.wof-wheel-wrap{
+    width:var(--wheel-width);
+    height:var(--wheel-height);
+    margin:0 auto;
+    pointer-events: none;
+}
+.wof-wheel-box{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.wof-wheel-disc{
+    width:90%;
+    height:90%;
+    /* background-color: #abc; */
+    /* border:2px solid #000; */
+    border-radius: 100%;
+    box-shadow: 3px 3px 10px 10px #00000033;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.wof-wheel-disc-el{
+    width:100%;
+    height:100%;
+    background-image:  linear-gradient(to right, #1e5799 0%,#567f44 100%);
+    border:2px solid #000;
+    border-radius: 100%;
+    position: relative;
+}
+
+/* .wof-wrap .wof-wheel-disc-el{
+    animation-duration: 2s;
+    animation-name: rolling;
+    animation-fill-mode: forwards ;
+    -webkit-animation-fill-mode: forwards;
+    animation-iteration-count: 0;
+    animation-timing-function: linear;
+    animation-play-state: paused;    
+}
+.wof-wrap.rolling .wof-wheel-disc-el{
+    animation-play-state: running;
+    animation-iteration-count: infinite;
+}
+.wof-wrap.end .wof-wheel-disc-el{
+    
+    transform: rotate(70deg);
+} */
+.wof-wheel-disc-el-section{
+    --roate-1:0deg;
+    --roate-2:45deg;
+}
+.wof-wheel-disc-el-section-line{
+    width:0px;
+    height:50%;
+    border:2px dotted #000;
+    border-width: 0 2px 0 0;
+    top:0; left:calc(50% - 2px / 2);
+    transform-origin: center bottom;
+    position: absolute;
+    transform: rotate(0deg);
+}
+.wof-wheel-disc-el-section-line-1{
+    transform: rotate(var(--roate-1));
+}
+.wof-wheel-disc-el-section-line-2{
+    transform: rotate(var(--roate-2));
+}
+.wof-wheel-disc-el-section-label{
+    width:2px;
+    height:50%;
+    top:0; left:calc(50% - 2px / 2);
+    transform-origin: center bottom;
+    position: absolute;
+    transform: rotate(calc( ( var(--roate-2) + var(--roate-1) ) /2   ));
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    /* align-items: center; */
+    padding-top:2em;
+}
+
+.wof-wrap{
+    --wheel-rotate:0deg;
+}
+
+.wof-wrap.rolling[data-rolling] .wof-wheel-disc-el{
+    /* animation-name: rolling; */
+    animation-duration: 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+	animation-timing-function: cubic-bezier(0.22, 0.21, 0.65, 1.05) ;
+}
+.wof-wrap.rolling[data-rolling="inf"] .wof-wheel-disc-el{
+    animation-name: rolling-inf;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both ;
+    animation-timing-function: linear ;
+
+}
+.wof-wrap.rolling[data-rolling="end"] .wof-wheel-disc-el{ animation-name: rolling-end; }
+
+
+
+/* 애니메이션 처리 */
+
+@keyframes rolling-inf {
+    from {transform: rotate( calc(-3600deg ));}
+    to {transform: rotate(0deg);}
+}
+@keyframes rolling-end { from {transform: rotate( 0deg );} to {transform: rotate(  calc( 3600deg + var(--wheel-rotate ) ) ); } }
+
+
+
