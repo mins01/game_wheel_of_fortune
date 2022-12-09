@@ -56,6 +56,37 @@ class WheelOfFortune{
       },10)
     }
   }
+  get sections(){
+    let sections = [];
+    this.wrap.querySelectorAll('.wof-wheel-disc-el-section').forEach(element => {
+      const st = getComputedStyle(element)
+      let section = {
+        element:element,
+        line_1_rotate:parseInt(st.getPropertyValue('--section-line-1-rotate'),10),
+        line_2_rotate:parseInt(st.getPropertyValue('--section-line-2-rotate'),10),
+        label:element.querySelector('.wof-wheel-disc-el-section-label').innerText
+      }
+      if(section.line_1_rotate > section.line_2_rotate){
+        line_1_rotate = line_1_rotate - 360;
+      }
+      sections.push(section)
+    });
+    return sections;
+  }
+  get currentSection(){
+    let wheel_rotate = this.wheel_rotate;
+    let sections = this.sections;
+    let currentSection = null;
+    sections.forEach(section => {
+      let line_1_rotate = section.line_1_rotate;
+      let line_2_rotate = section.line_2_rotate;
+
+      if(wheel_rotate > line_1_rotate && wheel_rotate <= line_2_rotate ){
+        currentSection = section;
+      }
+    });
+    return currentSection;
+  }
 }
 
 export default WheelOfFortune ;

@@ -57,7 +57,7 @@
 		<h1>돌림판 : wheel of fortune</h1>
 		<div>
 			<div class="wof-container">
-				<div class="wof-wrap on" id="wof-01">
+				<div class="wof-wrap on" id="wof-01" style="max-width: 600px;">
 					<div class="wof-arrow-wrap">
 						<div class="wof-arrow-box">
 							<div class="wof-arrow-el">
@@ -69,7 +69,7 @@
 						<div class="wof-wheel-box">
 							<div class="wof-wheel-disc">
 								<div class="wof-wheel-disc-el">
-									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:0deg;--section-line-2-rotate:90deg">
+									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:-60deg;--section-line-2-rotate:90deg">
 										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
 										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
 										<div class="wof-wheel-disc-el-section-label">라벨1</div>
@@ -89,7 +89,7 @@
 										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
 										<div class="wof-wheel-disc-el-section-label">라벨4</div>
 									</div>
-									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:280deg;--section-line-2-rotate:360deg;">
+									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:280deg;--section-line-2-rotate:300deg;">
 										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
 										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
 										<div class="wof-wheel-disc-el-section-label">라벨5</div>
@@ -100,17 +100,40 @@
 					</div>
 					<div class="wof-btns">
 						<div class="">
-							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.toggle('on')">회전 : on/off</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.toggle('on')">동작 : on/off</button>
 							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.remove('spin-dir-left')">회전방향:오른쪽(default)</button>
 							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.add('spin-dir-left')">회전방향:왼쪽</button>
 						</div>
+						<hr>
 						<div class="">
-							<button class="btn btn-info m-1" type="button" onclick="wof.spin()">회전</button>
+							<button class="btn btn-info m-1" type="button" onclick="wof.spin()">회전 무한</button>
 							<button class="btn btn-info m-1" type="button" onclick="wof.spinReset()">회전 초기화</button>
 							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.toggle('pause')">일시정지 on/off</button>
 							<button class="btn btn-info m-1" type="button" onclick="alert(wof.wheel_rotate)">회전 deg 확인</button>
+							<button class="btn btn-info m-1" type="button" onclick="alert(wof.currentSection.label);console.log(wof.currentSection)">선택된 섹션 확인</button>
 						</div>
-						
+						<hr>
+						<div class="">
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[0]; wof.spinAndStop((section.line_1_rotate + section.line_2_rotate)/2)">center 라벨1</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[1]; wof.spinAndStop((section.line_1_rotate + section.line_2_rotate)/2)">center 라벨2</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[2]; wof.spinAndStop((section.line_1_rotate + section.line_2_rotate)/2)">center 라벨3</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[3]; wof.spinAndStop((section.line_1_rotate + section.line_2_rotate)/2)">center 라벨4</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[4]; wof.spinAndStop((section.line_1_rotate + section.line_2_rotate)/2)">center 라벨5</button>
+							<br>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[0]; wof.spinAndStop(section.line_2_rotate - 1)">left side 라벨1</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[1]; wof.spinAndStop(section.line_2_rotate - 1)">left side 라벨2</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[2]; wof.spinAndStop(section.line_2_rotate - 1)">left side 라벨3</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[3]; wof.spinAndStop(section.line_2_rotate - 1)">left side 라벨4</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[4]; wof.spinAndStop(section.line_2_rotate - 1)">left side 라벨5</button>
+							<br>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[0]; wof.spinAndStop(section.line_1_rotate + 1)">right side 라벨1</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[1]; wof.spinAndStop(section.line_1_rotate + 1)">right side 라벨2</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[2]; wof.spinAndStop(section.line_1_rotate + 1)">right side 라벨3</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[3]; wof.spinAndStop(section.line_1_rotate + 1)">right side 라벨4</button>
+							<button class="btn btn-info m-1" type="button" onclick="let section = wof.sections[4]; wof.spinAndStop(section.line_1_rotate + 1)">right side 라벨5</button>
+							
+						</div>
+						<hr>
 						<div class="">
 							.spinAndStop()
 							<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStop(-90)">-90도</button>
