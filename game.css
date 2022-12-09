@@ -150,7 +150,7 @@
     animation-duration: 4s;
     animation-iteration-count: 1;
     animation-fill-mode: both ;
-    animation-timing-function: cubic-bezier(0.29, 0.26, 0.68, 1.04) ;
+    animation-timing-function: cubic-bezier(0.35, 0.7, 0.5, 1.03)
 }
 .wof-wrap.on[data-spin="now"] .wof-wheel-disc{
     animation-name: spin-now;
