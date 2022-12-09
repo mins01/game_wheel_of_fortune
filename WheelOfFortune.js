@@ -14,9 +14,9 @@ class WheelOfFortune{
     deg = deg % 360;
     this.wrap.style.setProperty('--wheel-rotate',deg+'deg');
   }
-  get wheel_disc_el(){
+  get wheel_disc(){
     if(!this.wrap) return null;
-    return this.wrap.querySelector('.wof-wheel-disc-el');
+    return this.wrap.querySelector('.wof-wheel-disc');
   }
 
   spin(){
@@ -58,13 +58,13 @@ class WheelOfFortune{
   }
   get sections(){
     let sections = [];
-    this.wrap.querySelectorAll('.wof-wheel-disc-el-section').forEach(element => {
+    this.wrap.querySelectorAll('.wof-wheel-disc-section').forEach(element => {
       const st = getComputedStyle(element)
       let section = {
         element:element,
         line_1_rotate:parseInt(st.getPropertyValue('--section-line-1-rotate'),10),
         line_2_rotate:parseInt(st.getPropertyValue('--section-line-2-rotate'),10),
-        label:element.querySelector('.wof-wheel-disc-el-section-label').innerText
+        label:element.querySelector('.wof-wheel-disc-section-label').innerText
       }
       if(section.line_1_rotate > section.line_2_rotate){
         line_1_rotate = line_1_rotate - 360;

@@ -45,7 +45,7 @@
 		globalThis.wof = wof;
 		window.addEventListener('load',(event)=>{
 			wof.wrap = document.querySelector('#wof-01');
-			wof.wheel_disc_el.onanimationend = (event) => {
+			wof.wheel_disc.onanimationend = (event) => {
 				console.log('deg',wof.wheel_rotate);
 			};
 		})
@@ -67,32 +67,27 @@
 					</div>
 					<div class="wof-wheel-wrap">
 						<div class="wof-wheel-box">
-							<div class="wof-wheel-disc">
-								<div class="wof-wheel-disc-el">
-									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:-60deg;--section-line-2-rotate:90deg">
-										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
-										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
-										<div class="wof-wheel-disc-el-section-label">라벨1</div>
+							<div class="wof-wheel-disc-box">
+								<div class="wof-wheel-disc">
+									<div class="wof-wheel-disc-section" style="--section-line-1-rotate:-60deg;--section-line-2-rotate:90deg">
+										<div class="wof-wheel-disc-section-line wof-wheel-disc-section-line-2"></div>
+										<div class="wof-wheel-disc-section-label">라벨1</div>
 									</div>
-									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:90deg;--section-line-2-rotate:180deg">
-										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
-										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
-										<div class="wof-wheel-disc-el-section-label">라벨2</div>
+									<div class="wof-wheel-disc-section" style="--section-line-1-rotate:90deg;--section-line-2-rotate:180deg">
+										<div class="wof-wheel-disc-section-line wof-wheel-disc-section-line-2"></div>
+										<div class="wof-wheel-disc-section-label">라벨2</div>
 									</div>
-									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:180deg;--section-line-2-rotate:260deg;">
-										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
-										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
-										<div class="wof-wheel-disc-el-section-label">라벨3</div>
+									<div class="wof-wheel-disc-section" style="--section-line-1-rotate:180deg;--section-line-2-rotate:260deg;">
+										<div class="wof-wheel-disc-section-line wof-wheel-disc-section-line-2"></div>
+										<div class="wof-wheel-disc-section-label">라벨3</div>
 									</div>
-									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:260deg;--section-line-2-rotate:280deg;">
-										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
-										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
-										<div class="wof-wheel-disc-el-section-label">라벨4</div>
+									<div class="wof-wheel-disc-section" style="--section-line-1-rotate:260deg;--section-line-2-rotate:280deg;">
+										<div class="wof-wheel-disc-section-line wof-wheel-disc-section-line-2"></div>
+										<div class="wof-wheel-disc-section-label">라벨4</div>
 									</div>
-									<div class="wof-wheel-disc-el-section" style="--section-line-1-rotate:280deg;--section-line-2-rotate:300deg;">
-										<!-- <div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-1"></div> -->
-										<div class="wof-wheel-disc-el-section-line wof-wheel-disc-el-section-line-2"></div>
-										<div class="wof-wheel-disc-el-section-label">라벨5</div>
+									<div class="wof-wheel-disc-section" style="--section-line-1-rotate:280deg;--section-line-2-rotate:300deg;">
+										<div class="wof-wheel-disc-section-line wof-wheel-disc-section-line-2"></div>
+										<div class="wof-wheel-disc-section-label">라벨5</div>
 									</div>
 								</div>
 							</div>
@@ -110,7 +105,7 @@
 							<button class="btn btn-info m-1" type="button" onclick="wof.spinReset()">회전 초기화</button>
 							<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.toggle('pause')">일시정지 on/off</button>
 							<button class="btn btn-info m-1" type="button" onclick="alert(wof.wheel_rotate)">회전 deg 확인</button>
-							<button class="btn btn-info m-1" type="button" onclick="alert(wof.currentSection.label);console.log(wof.currentSection)">선택된 섹션 확인</button>
+							<button class="btn btn-info m-1" type="button" onclick="if(wof.currentSection){alert(wof.currentSection.label);}else{alert('현재 섹션이 없습니다.') };console.log(wof.currentSection)">현재 섹션 확인</button>
 						</div>
 						<hr>
 						<div class="">
