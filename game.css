@@ -9,6 +9,7 @@
     --wheel-width:clamp(300px, 100% , 100vmin);
     --wheel-height:var(--wheel-width);
     --spin-dir:1;
+    --data-spin-stop-animation-timing-function: cubic-bezier(0, 0, 0.5, 1.03);;
     position: relative;
     width:min(var(--wheel-width) , 100%);
     margin:0 auto;
@@ -142,7 +143,7 @@
     animation-name: spin-inf;
     animation-duration: 3s;
     animation-iteration-count: infinite;
-    animation-fill-mode: both ;
+    animation-fill-mode: forwards ;
     animation-timing-function: linear ;
 }
 .wof-wrap.on[data-spin="stop"] .wof-wheel-disc{
@@ -150,7 +151,10 @@
     animation-duration: 4s;
     animation-iteration-count: 1;
     animation-fill-mode: both ;
-    animation-timing-function: cubic-bezier(0.35, 0.7, 0.5, 1.03)
+    animation-timing-function:var(--data-spin-stop-animation-timing-function , cubic-bezier(0, 0, 0.5, 1.03));
+    /* animation-timing-function: cubic-bezier(0, 0, 0.5, 1.03); */
+    /* animation-timing-function: cubic-bezier(0.35, 0.7, 0.5, 1.03); */
+    /* animation-timing-function: cubic-bezier(0, 0, 0.5, 1.1); */
 }
 .wof-wrap.on[data-spin="now"] .wof-wheel-disc{
     animation-name: spin-now;
@@ -163,11 +167,11 @@
 
 /* 애니메이션 처리 */
 @keyframes spin-inf {
-    from {transform: rotate( calc(-3600deg * var(--spin-dir) + var(--wheel-rotate ) ));}
+    from {transform: rotate( calc(-360deg * 5 * var(--spin-dir) + var(--wheel-rotate ) ));}
     to {transform: rotate(0deg + var(--wheel-rotate ));}
 }
 @keyframes spin-stop { 
-    from {transform: rotate( calc( -3600deg  * var(--spin-dir) + var(--wheel-rotate ) ) );}
+    from {transform: rotate( calc( -360deg * 5  * var(--spin-dir) + var(--wheel-rotate ) ) );}
     to {transform: rotate(  calc( 360deg * var(--spin-dir) + var(--wheel-rotate ) ) ); } 
 }
 @keyframes spin-now { 

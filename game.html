@@ -59,7 +59,15 @@
 			};
 		})
 	</script>
-	
+	<script>
+		function clickBtnSpin(btn){
+			let randN = 0.9+Math.random()*0.3 // 마지막에 되돌아가는 수치. 1 초과면 되돌아가서 멈춤
+			console.log('clickBtnSpin',randN);
+			wof.wrap.style.setProperty('--data-spin-stop-animation-timing-function',`cubic-bezier(0, 0, 0.5, ${randN})`);
+  
+			if(!wof.is_spinning){ wof.spinAndStopRandom() };
+		}
+	</script>
 
 
 	<style>
@@ -125,7 +133,7 @@
 					<h2>결과 : <span id="result-01">???</span></h2>
 				</div>
 				<div class="text-center">
-					<button type="button" id="btn-spin-01" class="btn btn-lg btn-primary" onclick=" if(!wof.is_spinning){ wof.spinAndStopRandom() };">SPIN!</button>
+					<button type="button" id="btn-spin-01" class="btn btn-lg btn-primary" onclick="clickBtnSpin(this)">SPIN!</button>
 				</div>
 				<hr>
 				<div class="btns">
