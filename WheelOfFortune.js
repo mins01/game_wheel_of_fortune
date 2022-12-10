@@ -4,17 +4,24 @@ class WheelOfFortune{
     this._wrap = null;
     this.is_spinning = false
     this.debug = false;
-    this.onspinstart = null;
-    this.onspinend = null;
+    this._onspinstart = null;
+    this._onspinend = null;
+    this.onspinstart = ()=>{};
+    this.onspinend = ()=>{};
+    this.spin_type = '';
   }
   set wrap(wrap){
     this._wrap = wrap;
     this.wheel_disc.addEventListener('animationend',(event) => {
-      if(this.debug) console.log('onanimationend')
+      
       this.is_spinning = false;
       if(this.onspinend) this.onspinend(this);
+      if(this.onspinstop && this.wrap.dataset.spin=='stop'){ this.onspinstop(this); }  
+      this.wheel_rotate_pre = this.wheel_rotate
+      if(this.debug) console.log('onanimationend',this.wrap.dataset.spin)
     });
   }
+  
   get wrap(){
     return this._wrap;
   }
@@ -29,15 +36,42 @@ class WheelOfFortune{
     deg = deg % 360;
     this.wrap.style.setProperty('--wheel-rotate',deg+'deg');
   }
+  get wheel_rotate_pre(){
+    if(!this.wrap) return null;
+    let deg = parseInt(getComputedStyle( this.wrap).getPropertyValue('--wheel-rotate-pre'));
+    deg = deg % 360;
+    return deg;
+  }
+  set wheel_rotate_pre(deg){
+    if(!this.wrap) return null;
+    deg = deg % 360;
+    this.wrap.style.setProperty('--wheel-rotate-pre',deg+'deg');
+  }
+
   get wheel_disc(){
     if(!this.wrap) return null;
     return this.wrap.querySelector('.wof-wheel-disc');
   }
 
-  spin(){
-    if(!this.wrap) return null;
-    this.wrap.dataset.spin='inf'  
+  get onspinstart(){
+    return this._onspinstart
   }
+  set onspinstart(onspinstart){
+    this._onspinstart = () =>{
+      onspinstart(this);
+      if(this.debug) console.log('onspinstart',this.wrap.dataset.spin)
+    }
+  }
+  get onspinend(){
+    return this._onspinend
+  }
+  set onspinend(onspinend){
+    this._onspinend = () =>{
+      onspinend(this);
+      if(this.debug) console.log('onspinend',this.wrap.dataset.spin)
+    }
+  }
+
   spinReset(){
     if(!this.wrap) return null;
     this.wrap.dataset.spin=''  
@@ -47,37 +81,39 @@ class WheelOfFortune{
     if(b) this.wrap.classList.add('pause');
     else this.wrap.classList.remove('pause');
   }
-  spinAndStopRandom(){
-    let deg = Math.floor(Math.random()*361)
-    return this.spinAndStop(deg)
+
+  spin(spin_type,deg){
+    if(this.debug) console.log('spin',spin_type,deg)
+
+    if(!this.wrap) return null;
+    if(!spin_type) spin_type = 'inf';
+    this.is_spinning = true;
+    this.spin_type = spin_type;
+    this.wrap.dataset.spin='pre'
+    if(isNaN(deg)){
+      this.wrap.dataset.spin='inf';
+      if(this.onspinstart) this.onspinstart(this);
+    }else{
+      void this.wheel_disc.offsetWidth;
+      // setTimeout(()=>{
+        if(this.onspinstart) this.onspinstart(this);
+        this.wheel_rotate = deg;
+        this.wrap.dataset.spin = spin_type
+      // },1000)
+    }
+  }
+  spinInf(){
+    return this.spin('inf');
   }
   spinAndStop(deg){
-    if(!this.wrap) return null;
-    this.is_spinning = true;
-    if(this.onspinstart) this.onspinstart(this);
-    if(deg == undefined){
-      this.wrap.dataset.spin='inf'  
-    }else{
-      this.wrap.dataset.spin='inf'
-      this.wheel_rotate = deg;
-      setTimeout(()=>{
-        this.wrap.dataset.spin='stop'
-      },10)
-    }
+    return this.spin('stop',deg);
   }
   spinAndStopNow(deg){
-    if(!this.wrap) return null;
-    this.is_spinning = true;
-    if(this.onspinstart) this.onspinstart(this);
-    if(deg == undefined){
-      this.wrap.dataset.spin='inf'  
-    }else{
-      this.wrap.dataset.spin='inf'
-      this.wheel_rotate = deg;
-      setTimeout(()=>{
-        this.wrap.dataset.spin='now'
-      },10)
-    }
+    return this.spin('now',deg);
+  }
+  spinAndStopRandom(){
+    let deg = Math.floor(Math.random()*360)
+    return this.spinAndStop(deg)
   }
   get sections(){
     let sections = [];

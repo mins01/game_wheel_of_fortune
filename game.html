@@ -48,14 +48,23 @@
 			wof.wrap = document.querySelector('#wof-01');
 			wof.onspinstart = (wof) => {
 				console.log('onspinstart');
-				document.querySelector('#result-01').textContent = '???'
-				document.querySelector('#btn-spin-01').disabled = true;
+				if(wof.spin_type=='stop'){
+					document.querySelector('#result-01').textContent = '???'
+					document.querySelectorAll('.wof-wheel-btn').forEach(element => {
+						element.disabled = true;
+					}); 
+				}
+				
 			};
 			wof.onspinend = (wof) => {
-				console.log('onspinend');
-				document.querySelector('#result-01').textContent = wof.currentSection.label
+				console.log('onspinend');	
 				console.log('deg',wof.wheel_rotate);
-				document.querySelector('#btn-spin-01').disabled = false;
+				document.querySelector('#result-01').textContent = wof.currentSection.label
+				if(wof.spin_type=='stop'){
+					document.querySelectorAll('.wof-wheel-btn').forEach(element => {
+						element.disabled = false;
+					});	
+				}
 			};
 		})
 	</script>
@@ -64,13 +73,11 @@
 			let randFArg4 = 0.9+Math.random()*0.3 // 마지막에 되돌아가는 수치. 1 초과면 되돌아가서 멈춤
 			wof.wrap.style.setProperty('--data-spin-stop-animation-timing-function',`cubic-bezier(0, 0, 0.5, ${randFArg4})`);
 			let randSec = 1+Math.random()*10 // 마지막에 되돌아가는 수치. 1 초과면 되돌아가서 멈춤
-			// randSec = 1;
+			randSec = 9;
 			wof.wrap.style.setProperty('--data-spin-stop-animation-duration',`${randSec}s`);
-			
-			
 			console.log('clickBtnSpin',randFArg4,randSec);
   
-			if(!wof.is_spinning){ wof.spinAndStopRandom() };
+			wof.spinAndStopRandom();
 		}
 	</script>
 
@@ -88,6 +95,17 @@
 				
 			);
 		}
+		#wof-01 .wof-wheel-btn{
+			border: 2px outset #000;
+			background-color: rgb(119, 16, 16);
+			color: #fff;
+			box-shadow: 3px 3px 10px  inset rgba(255, 255, 255, 0.5) ,-3px -3px 10px  inset rgba(0, 0, 0, 0.5) , 3px 3px 20px  rgba(0, 0, 0, 0.8);
+
+		}
+		#wof-01  .wof-wheel-btn:disabled{
+    filter: grayscale(0.9) brightness(0.4);
+}
+		
 		
 	</style>
 	
@@ -132,13 +150,16 @@
 								</div>
 							</div>
 						</div>
+						<div class="wof-wheel-btn-box">
+							<button type="button" id="btn-spin-01" class="wof-wheel-btn" onclick="clickBtnSpin(this)">SPIN</button>
+						</div>
 					</div>
 				</div>
 				<div class="text-center">
 					<h2>결과 : <span id="result-01">???</span></h2>
 				</div>
 				<div class="text-center">
-					<button type="button" id="btn-spin-01" class="btn btn-lg btn-primary" onclick="clickBtnSpin(this)">SPIN!</button>
+					<button type="button" id="btn-spin-01" class="wof-wheel-btn btn btn-lg btn-primary" onclick="clickBtnSpin(this)">SPIN!</button>
 				</div>
 				<hr>
 				<div class="btns">
@@ -149,7 +170,7 @@
 					</div>
 					<hr>
 					<div class="">
-						<button class="btn btn-info m-1" type="button" onclick="wof.spin()">회전 무한</button>
+						<button class="btn btn-info m-1" type="button" onclick="wof.spinInf()">회전 무한</button>
 						<button class="btn btn-info m-1" type="button" onclick="wof.spinReset()">회전 초기화</button>
 						<button class="btn btn-info m-1" type="button" onclick="wof.wrap.classList.toggle('pause')">일시정지 on/off</button>
 						<button class="btn btn-info m-1" type="button" onclick="alert(wof.wheel_rotate)">회전 deg 확인</button>
@@ -207,7 +228,7 @@
 						<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(360)">360도</button>
 						<button class="btn btn-info m-1" type="button" onclick="wof.spinAndStopNow(400)">400도</button>
 						<div class="input-group m-1">
-							<input type="number" min="-360"  max="360"  class="form-control" placeholder="deg" value="0" id="spinAndStopNow-deg-01">
+							<input type="number" min="-360"  max="360"  class="form-control" placeholder="deg" value="0" id="spinAndStopNow-deg-01" oninput="wof.spinAndStopNow(this.value)">
 							<button class="btn btn-outline-secondary" type="button" onclick="wof.spinAndStopNow( document.querySelector('#spinAndStopNow-deg-01').value)">.spinAndStopNow(int)</button>
 						</div>
 					</div>
