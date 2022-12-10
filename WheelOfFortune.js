@@ -1,7 +1,22 @@
 
 class WheelOfFortune{
   constructor() {
-    this.wrap = null;
+    this._wrap = null;
+    this.is_spinning = false
+    this.debug = false;
+    this.onspinstart = null;
+    this.onspinend = null;
+  }
+  set wrap(wrap){
+    this._wrap = wrap;
+    this.wheel_disc.addEventListener('animationend',(event) => {
+      if(this.debug) console.log('onanimationend')
+      this.is_spinning = false;
+      if(this.onspinend) this.onspinend(this);
+    });
+  }
+  get wrap(){
+    return this._wrap;
   }
   get wheel_rotate(){
     if(!this.wrap) return null;
@@ -32,8 +47,14 @@ class WheelOfFortune{
     if(b) this.wrap.classList.add('pause');
     else this.wrap.classList.remove('pause');
   }
+  spinAndStopRandom(){
+    let deg = Math.floor(Math.random()*361)
+    return this.spinAndStop(deg)
+  }
   spinAndStop(deg){
     if(!this.wrap) return null;
+    this.is_spinning = true;
+    if(this.onspinstart) this.onspinstart(this);
     if(deg == undefined){
       this.wrap.dataset.spin='inf'  
     }else{
@@ -46,6 +67,8 @@ class WheelOfFortune{
   }
   spinAndStopNow(deg){
     if(!this.wrap) return null;
+    this.is_spinning = true;
+    if(this.onspinstart) this.onspinstart(this);
     if(deg == undefined){
       this.wrap.dataset.spin='inf'  
     }else{
@@ -81,7 +104,10 @@ class WheelOfFortune{
       let line_1_rotate = section.line_1_rotate;
       let line_2_rotate = section.line_2_rotate;
 
-      if(wheel_rotate > line_1_rotate && wheel_rotate <= line_2_rotate ){
+      if( (wheel_rotate > line_1_rotate && wheel_rotate <= line_2_rotate)
+      || (wheel_rotate > line_1_rotate-360 && wheel_rotate <= line_2_rotate-360)
+      || (wheel_rotate > line_1_rotate+360 && wheel_rotate <= line_2_rotate+360)
+        ){
         currentSection = section;
       }
     });
