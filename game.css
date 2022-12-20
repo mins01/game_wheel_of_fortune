@@ -57,8 +57,8 @@
 }
 .wof-wheel-btn-box .wof-wheel-btn{
     font-size: clamp(10px, 3vmin, 90px);
-    width: clamp(20px, 10vmin, 100px);
-    height: clamp(20px, 10vmin, 100px);
+    width: clamp(50px, 10vmin, 100px);
+    height: clamp(50px, 10vmin, 100px);
     background-color: #fff;
     border-radius: 100%;
     border: 3px solid #ccc;
@@ -117,7 +117,8 @@
     --section-line-1-rotate:0deg;
     --section-line-2-rotate:45deg;
 }
-.wof-wheel-disc-section-line{
+.wof-wheel-disc-section-line-on .wof-wheel-disc-section-line , 
+.wof-wheel-disc-section-line-on .wof-wheel-disc-section::after{
     width:0px;
     height:50%;
     border:2px dotted #000;
@@ -130,9 +131,15 @@
 /* .wof-wheel-disc-section-line-1{
     transform: rotate(clac(var(--section-line-1-rotate) * -1));
 } */
-.wof-wheel-disc-section-line-2{
+.wof-wheel-disc-section-line-on .wof-wheel-disc-section-line-2 , 
+.wof-wheel-disc-section-line-on .wof-wheel-disc-section::after{
     transform: rotate(calc(var(--section-line-2-rotate) * -1));
 }
+.wof-wheel-disc-section::after{
+    content: "";
+    display: block;
+}
+
 .wof-wheel-disc-section-label{
     width:2px;
     height:50%;

@@ -149,6 +149,42 @@ class WheelOfFortune{
     });
     return currentSection;
   }
+
+  setSectionData(data){
+    this.wheel_disc.innerHTML = '';
+    let def_section = document.createElement('div');
+    def_section.className='wof-wheel-disc-section';
+    let def_section_label = document.createElement('div');
+    def_section_label.className='wof-wheel-disc-section-label';
+    def_section.appendChild(def_section_label);
+    let line_1_rotate = 0;
+    let bgImageSections = [];
+    data.forEach(d => {
+      let section = def_section.cloneNode(true);
+      section.querySelector('.wof-wheel-disc-section-label').textContent = d.label
+      section.style.setProperty('--section-line-1-rotate',line_1_rotate+'deg')
+      section.style.setProperty('--section-line-2-rotate',d.rotate+'deg')
+      this.wheel_disc.appendChild(section);
+      bgImageSections.unshift( `${d.color} calc(360deg - ${d.rotate}deg) calc(360deg - ${line_1_rotate}deg)` )
+      line_1_rotate = d.rotate;
+    });
+    let bgImage = 'conic-gradient( '+bgImageSections.join(" , ")+' )';
+    if(this.debug) console.log(bgImage);
+    this.wheel_disc.style.backgroundImage = bgImage;
+
+
+
+
+    // background-image: conic-gradient(
+    //   red calc(360deg - 360deg) calc(360deg - 300deg),
+    //   purple calc(360deg - 300deg) calc(360deg - 280deg),
+    //   blue calc(360deg - 280deg) calc(360deg - 260deg),
+    //   yellow calc(360deg - 260deg) calc(360deg - 180deg),
+    //   green calc(360deg - 180deg) calc(360deg - 90deg),
+    //   red 0deg 60deg
+    // );
+
+  }
 }
 
 export default WheelOfFortune ;
