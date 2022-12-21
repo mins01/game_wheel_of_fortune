@@ -19,8 +19,19 @@
     box-shadow: 3px 3px 10px 10px #00000033;
 }
 
+#wof-01  .wof-wheel-disc-section-label{
+    font-size: clamp(12px, 4vmin, 36px);
+    font-weight: bold;
+    -webkit-text-stroke: 1px #ccc;
+}
 
-.wof-wrap.spinning .wof-wheel-btn{
+.wof-arrow-el {
+    font-size: clamp(40px, 10vmin, 80px);
+    filter: drop-shadow(2px 2px 5px #000);
+ 
+}
+
+.wof-wrap.spinning#wof-01 .wof-wheel-btn{
     /* border-color: #00ff00; */
     filter: brightness(1);
     animation-name: spinning-wheel-btn;

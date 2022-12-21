@@ -68,9 +68,15 @@
 					});	
 				}
 			};
+			syncLocationHash();
 			syncSectionData();
 
 		})
+		window.addEventListener('hashchange', (event) => { 
+			syncLocationHash();
+			syncSectionData();
+		});
+
 	</script>
 	<script>
 		function clickBtnSpin(btn){
@@ -90,13 +96,13 @@
 			let labels = document.querySelectorAll('.section-label:enabled')
 			let colors = document.querySelectorAll('.section-color:enabled')
 			let data = [];
-			weights.forEach((rotate,i) => {
-				let weight = parseInt(weights[i].value)
+			weights.forEach((rotate,idx) => {
+				let weight = parseInt(weights[idx].value)
 				if(isNaN(weight) || weight <= 0){return;} //0은 포함 안시킴
 				data.push({
-					"weight":parseInt(weights[i].value) ,
-					"label":labels[i].value ,
-					"color":colors[i].value ,
+					"weight":parseInt(weights[idx].value) ,
+					"label":labels[idx].value ,
+					"color":colors[idx].value ,
 				})
 			});
 			let totsl_weight = data.reduce((acc,cur,idx,src)=>{return acc+cur.weight},0)
@@ -116,6 +122,27 @@
 			let data = createSectionData()
 			console.log('data',data);
 			wof.setSectionData(data)
+		}
+		function syncLocationHash(){
+			let hash = document.location.hash;
+			if(hash==''){return;}
+			hash = decodeURIComponent(hash.substr(1));
+			let hashLabels = hash.split(',');
+			console.log(hashLabels);
+
+			let weights = document.querySelectorAll('.section-weight:enabled')
+			let labels = document.querySelectorAll('.section-label:enabled')
+			let colors = document.querySelectorAll('.section-color:enabled')
+			labels.forEach((label,idx) => {
+				if(idx > hashLabels.length-1){
+					weights[idx].value = 0;
+					return;
+				} 
+				weights[idx].value = 10;
+				labels[idx].value = hashLabels[idx];
+				
+			});
+
 		}
 
 	</script>
@@ -171,6 +198,14 @@
 				</div>
 				<div class="text-center">
 					<button type="button" id="btn-spin-01" class="wof-wheel-btn btn btn-lg btn-primary" onclick="clickBtnSpin(this)">SPIN!</button>
+				</div>
+				<hr>
+				<div>
+					PRESET
+					<a href="#YES,NO" class="btn btn-info m-1">YES,NO</a>
+					<a href="#1,2,3" class="btn btn-info m-1">1,2,3</a>
+					<a href="#한식,중식,양식,햄버거" class="btn btn-info m-1">한식,중식,양식,햄버거</a>
+					<a href="#🐄,🐖,🐓,🐏,🐟" class="btn btn-info m-1">🐄,🐖,🐓,🐏,🐟</a>
 				</div>
 				<hr>
 				<div>
