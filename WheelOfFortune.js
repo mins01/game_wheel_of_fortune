@@ -13,10 +13,8 @@ class WheelOfFortune{
   set wrap(wrap){
     this._wrap = wrap;
     this.wheel_disc.addEventListener('animationend',(event) => {
-      
-      this.is_spinning = false;
       if(this.onspinend) this.onspinend(this);
-      if(this.onspinstop && this.wrap.dataset.spin=='stop'){ this.onspinstop(this); }  
+      // if(this.onspinstop && this.wrap.dataset.spin=='stop'){ this.onspinstop(this); }  
       this.wheel_rotate_pre = this.wheel_rotate
       if(this.debug) console.log('onanimationend',this.wrap.dataset.spin)
     });
@@ -58,6 +56,8 @@ class WheelOfFortune{
   }
   set onspinstart(onspinstart){
     this._onspinstart = () =>{
+      this.is_spinning = true;
+      this.wrap.classList.add('spinning');
       onspinstart(this);
       if(this.debug) console.log('onspinstart',this.wrap.dataset.spin)
     }
@@ -67,6 +67,8 @@ class WheelOfFortune{
   }
   set onspinend(onspinend){
     this._onspinend = () =>{
+      this.is_spinning = false;
+      this.wrap.classList.remove('spinning');
       onspinend(this);
       if(this.debug) console.log('onspinend',this.wrap.dataset.spin)
     }

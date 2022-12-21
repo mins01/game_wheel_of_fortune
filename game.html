@@ -37,6 +37,7 @@
 	
 	<!-- //meta og -->
 
+	<link rel="stylesheet" href="wheelOfFortune.css">
 	<link rel="stylesheet" href="game.css">
 	<!-- <script src="WheelOfFortune.js" type="module"></script> -->
 	<script type="module">
@@ -85,21 +86,30 @@
 	</script>
 	<script>
 		function createSectionData(){
-			let rotates = document.querySelectorAll('.section-rotate:enabled')
+			let weights = document.querySelectorAll('.section-weight:enabled')
 			let labels = document.querySelectorAll('.section-label:enabled')
 			let colors = document.querySelectorAll('.section-color:enabled')
 			let data = [];
-			rotates.forEach((rotate,i) => {
+			weights.forEach((rotate,i) => {
+				let weight = parseInt(weights[i].value)
+				if(isNaN(weight) || weight <= 0){return;} //0은 포함 안시킴
 				data.push({
-					"rotate":parseInt(rotates[i].value) ,
+					"weight":parseInt(weights[i].value) ,
 					"label":labels[i].value ,
 					"color":colors[i].value ,
 				})
 			});
-			data.sort((a,b)=>{
-				if(a.rotate > b.rotate) return 1;
-				return -1;
+			let totsl_weight = data.reduce((acc,cur,idx,src)=>{return acc+cur.weight},0)
+			data.forEach((d,idx,src)=>{  // 비중 기준으로 각도 계산
+				let pre_rotate = (idx>0)?src[idx-1].rotate:0;
+				d.rotate = (d.weight/totsl_weight*360)+pre_rotate;
 			})
+			data[data.length-1].rotate = 360; //마지막은 무조건 360 이 되야한다.
+			// console.log(totsl_weight);
+			// data.sort((a,b)=>{
+			// 	if(a.rotate > b.rotate) return 1;
+			// 	return -1;
+			// })
 			return data;
 		}
 		function syncSectionData(){
@@ -111,29 +121,7 @@
 	</script>
 
 	<style>
-		#wof-01 .wof-wheel-disc{
-			background-image: conic-gradient(
-				red calc(360deg - 360deg) calc(360deg - 300deg),
-				purple calc(360deg - 300deg) calc(360deg - 280deg),
-				blue calc(360deg - 280deg) calc(360deg - 260deg),
-				yellow calc(360deg - 260deg) calc(360deg - 180deg),
-				green calc(360deg - 180deg) calc(360deg - 90deg),
-				red 0deg 60deg
-				
-				
-			);
-		}
-		#wof-01 .wof-wheel-btn{
-			border: 2px outset #000;
-			background-color: rgb(119, 16, 16);
-			color: #fff;
-			box-shadow: 3px 3px 10px  inset rgba(255, 255, 255, 0.5) ,-3px -3px 10px  inset rgba(0, 0, 0, 0.5) , 3px 3px 20px  rgba(0, 0, 0, 0.8);
-
-		}
-		#wof-01  .wof-wheel-btn:disabled{
-			filter: grayscale(0.9) brightness(0.4);
-		}
-		
+			
 		
 	</style>
 	
@@ -174,7 +162,7 @@
 							</div>
 						</div>
 						<div class="wof-wheel-btn-box">
-							<button type="button" id="btn-spin-01" class="wof-wheel-btn" onclick="clickBtnSpin(this)">SPIN</button>
+							<button type="button" id="btn-spin-01" class="wof-wheel-btn" onclick="clickBtnSpin(this)">GO</button>
 						</div>
 					</div>
 				</div>
@@ -189,51 +177,91 @@
 					<form action="" onsubmit="syncSectionData();return false;" oninput="syncSectionData();return false">
 						<div class="input-group m-1">
 							<div class="input-group-prepend">
-								<span class="input-group-text">0</span>
+								<span class="input-group-text text-center justify-content-center" style="width:4em">0</span>
 							</div>
-							<input type="number" value="" min="0" max="360" class="form-control section-rotate " placeholder="각도" disabled>
+							<input type="number" value="" min="0" max="999" class="form-control section-weight " placeholder="비중" disabled>
 							<input type="text"  class="form-control section-label" placeholder="라벨" value="" disabled>
 							<input type="text"  class="form-control section-color" placeholder="색" value="" disabled>
 						</div>
 						<div class="input-group m-1">
 							<div class="input-group-prepend">
-								<span class="input-group-text">1</span>
+								<span class="input-group-text text-center justify-content-center" style="width:4em">1</span>
 							</div>
-							<input type="number" value="45" min="0" max="360" class="form-control section-rotate " placeholder="각도" >
+							<input type="number" value="10" min="0" max="999" class="form-control section-weight " placeholder="비중" >
 							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨1">
 							<input type="color"  class="form-control section-color" placeholder="색" value="#ff0000">
 						</div>
 						<div class="input-group m-1">
 							<div class="input-group-prepend">
-								<span class="input-group-text">2</span>
+								<span class="input-group-text text-center justify-content-center" style="width:4em">2</span>
 							</div>
-							<input type="number" value="90" min="0" max="360" class="form-control section-rotate " placeholder="각도" >
+							<input type="number" value="0" min="0" max="999" class="form-control section-weight " placeholder="비중" >
 							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨2">
 							<input type="color"  class="form-control section-color" placeholder="색" value="#00ff00">
 						</div>
 						<div class="input-group m-1">
 							<div class="input-group-prepend">
-								<span class="input-group-text">3</span>
+								<span class="input-group-text text-center justify-content-center" style="width:4em">3</span>
 							</div>
-							<input type="number" value="180" min="0" max="360" class="form-control section-rotate " placeholder="각도" >
-							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨3">
+							<input type="number" value="5" min="0" max="999" class="form-control section-weight " placeholder="비중" >
+							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨3 ABcd긴이인 라베베베베벨엘엘엘">
 							<input type="color"  class="form-control section-color" placeholder="색" value="#0000ff">
 						</div>
 						<div class="input-group m-1">
 							<div class="input-group-prepend">
-								<span class="input-group-text">4</span>
+								<span class="input-group-text text-center justify-content-center" style="width:4em">4</span>
 							</div>
-							<input type="number" value="260" min="0" max="360" class="form-control section-rotate " placeholder="각도" >
+							<input type="number" value="20" min="0" max="999" class="form-control section-weight " placeholder="비중" >
 							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨4">
 							<input type="color"  class="form-control section-color" placeholder="색" value="#ffff00">
 						</div>
 						<div class="input-group m-1">
 							<div class="input-group-prepend">
-								<span class="input-group-text">5</span>
+								<span class="input-group-text text-center justify-content-center" style="width:4em">5</span>
 							</div>
-							<input type="number" value="360" min="0" max="360" class="form-control section-rotate " placeholder="각도" >
+							<input type="number" value="10" min="0" max="999" class="form-control section-weight " placeholder="비중" >
 							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨5">
 							<input type="color"  class="form-control section-color" placeholder="색" value="#00ffff">
+						</div>
+						<div class="input-group m-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text text-center justify-content-center" style="width:4em">6</span>
+							</div>
+							<input type="number" value="10" min="0" max="999" class="form-control section-weight " placeholder="비중" >
+							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨6">
+							<input type="color"  class="form-control section-color" placeholder="색" value="#ff00ff">
+						</div>
+						<div class="input-group m-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text text-center justify-content-center" style="width:4em">7</span>
+							</div>
+							<input type="number" value="10" min="0" max="999" class="form-control section-weight " placeholder="비중" >
+							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨7">
+							<input type="color"  class="form-control section-color" placeholder="색" value="#999999">
+						</div>
+						<div class="input-group m-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text text-center justify-content-center" style="width:4em">8</span>
+							</div>
+							<input type="number" value="0" min="0" max="999" class="form-control section-weight " placeholder="비중" >
+							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨8">
+							<input type="color"  class="form-control section-color" placeholder="색" value="#ff9999">
+						</div>
+						<div class="input-group m-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text text-center justify-content-center" style="width:4em">9</span>
+							</div>
+							<input type="number" value="0" min="0" max="999" class="form-control section-weight " placeholder="비중" >
+							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨9">
+							<input type="color"  class="form-control section-color" placeholder="색" value="#99ff99">
+						</div>
+						<div class="input-group m-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text text-center justify-content-center" style="width:4em">10</span>
+							</div>
+							<input type="number" value="0" min="0" max="999" class="form-control section-weight " placeholder="비중" >
+							<input type="text"  class="form-control section-label" placeholder="라벨" value="라벨10">
+							<input type="color"  class="form-control section-color" placeholder="색" value="#9999ff">
 						</div>
 						<div class="text-center">
 							<button class="btn btn-primary m-1">적용</button>

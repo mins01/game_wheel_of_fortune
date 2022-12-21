@@ -1,236 +1,40 @@
 @charset "utf-8";
 
-.wof-container{
-    box-sizing: border-box;
-    color:#000;
-    min-width: 280px;
-}
-.wof-wrap{
-    --wheel-width:clamp(300px, 100% , 100vmin);
-    --wheel-height:var(--wheel-width);
-    --spin-dir:1;
-    --data-spin-stop-animation-timing-function: cubic-bezier(0, 0, 0.5, 1.03);
-    --data-spin-stop-animation-duration: 4s;
-    
-    position: relative;
-    width:min(var(--wheel-width) , 100%);
-    margin:0 auto;
-}
-.wof-wrap.spin-dir-left{
-    --spin-dir:-1;
-}
-
-.wof-arrow-wrap{
-    position: absolute;
-    top:0;left:0;right:0;
-    text-align: center;
-    z-index: 2;
-}
-.wof-arrow-box{
-    width:var(--wheel-width);
-    max-width: 100%;
-    margin:0 auto
-}
-.wof-arrow-el{
-    font-size:80px;
-    color: #000;
-    filter: drop-shadow(2px 2px 5px rgb(230, 255, 91));
-    line-height: 1em;
-}
 
 
-.wof-wheel-wrap{
-    width:var(--wheel-width);
-    /* height:var(--wheel-height); */
-    max-width: 100%;
-    margin:0 auto;
-    /* pointer-events: none; */
-    padding-top: 100%; /* 1:1 ratio */
-    position: relative;
-}
-.wof-wheel-box{
-    z-index: 1;
-}
-.wof-wheel-btn-box{
-    z-index: 2;
-    pointer-events: none;
-}
-.wof-wheel-btn-box .wof-wheel-btn{
-    font-size: clamp(10px, 3vmin, 90px);
-    width: clamp(50px, 10vmin, 100px);
-    height: clamp(50px, 10vmin, 100px);
-    background-color: #fff;
-    border-radius: 100%;
-    border: 3px solid #ccc;
 
-    
-    cursor: pointer;
-    pointer-events: all;
+#wof-01 .wof-wheel-btn{
+    border: 2px solid #000;
+    background-color: rgb(119, 16, 16);
+    color: #fff;
+    box-shadow: 3px 3px 10px  inset rgba(255, 255, 255, 0.5) ,-3px -3px 10px  inset rgba(0, 0, 0, 0.5) , 3px 3px 20px  rgba(0, 0, 0, 0.8);
 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
 }
-.wof-wheel-btn-box .wof-wheel-btn:disabled{
-    filter: grayscale(0.9);
+#wof-01  .wof-wheel-btn:disabled{
+    /* filter: grayscale(0.9) brightness(0.4); */
+    cursor: progress;
 }
-.wof-wheel-box , .wof-wheel-btn-box{
-    /* width:100%; */
-    /* height:100%; */
-    position: absolute;
-    top:0;left: 0;right:0;bottom:0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-}
-.wof-wheel-disc-box{
-    width:90%;
-    height:90%;
-    /* background-color: #abc; */
-    /* border:2px solid #000; */
-    border-radius: 100%;
+
+#wof-01  .wof-wheel-disc-box{
     box-shadow: 3px 3px 10px 10px #00000033;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-}
-.wof-wheel-disc{
-    width:100%;
-    height:100%;
-    background-image:  linear-gradient(to right, #1e5799 0%,#567f44 100%);
-    border:2px solid #000;
-    border-radius: 100%;
-    position: relative;
 }
 
-.wof-wheel-disc-section{
-    --section-line-1-rotate:0deg;
-    --section-line-2-rotate:45deg;
-}
-.wof-wheel-disc-section-line-on .wof-wheel-disc-section-line , 
-.wof-wheel-disc-section-line-on .wof-wheel-disc-section::after{
-    width:0px;
-    height:50%;
-    border:2px dotted #000;
-    border-width: 0 2px 0 0;
-    top:0; left:calc(50% - 2px / 2);
-    transform-origin: center bottom;
-    position: absolute;
-    transform: rotate(0deg);
-}
-/* .wof-wheel-disc-section-line-1{
-    transform: rotate(clac(var(--section-line-1-rotate) * -1));
-} */
-.wof-wheel-disc-section-line-on .wof-wheel-disc-section-line-2 , 
-.wof-wheel-disc-section-line-on .wof-wheel-disc-section::after{
-    transform: rotate(calc(var(--section-line-2-rotate) * -1));
-}
-.wof-wheel-disc-section::after{
-    content: "";
-    display: block;
-}
 
-.wof-wheel-disc-section-label{
-    width:2px;
-    height:50%;
-    top:0; left:calc(50% - 2px / 2);
-    transform-origin: center bottom;
-    position: absolute;
-    transform: rotate(calc( ( var(--section-line-2-rotate) + var(--section-line-1-rotate) ) /2 *-1  ));
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    /* align-items: center; */
-    padding-top:1em;
-    text-align: center;
-}
-
-.wof-wrap{
-    --wheel-rotate:0deg;
-    --wheel-rotate-pre:0deg;
-}
-
-.wof-wrap.on[data-spin="inf"]{
-    --wheel-rotate:0deg
-}
-.wof-wrap.pause  .wof-wheel-disc{
-    animation-play-state: paused;
-}
-
-.wof-wrap.on[data-spin] .wof-wheel-disc{
-    animation-name: none;
-    animation-duration: 3s;
-    animation-iteration-count: 0;
-    animation-fill-mode: none;
-	animation-timing-function: linear ;
-}
-
-.wof-wrap.on[data-spin="inf"] .wof-wheel-disc{
-    animation-name: spin-inf;
-    animation-duration: 3s;
+.wof-wrap.spinning .wof-wheel-btn{
+    /* border-color: #00ff00; */
+    filter: brightness(1);
+    animation-name: spinning-wheel-btn;
+    animation-duration: 0.2s;
     animation-iteration-count: infinite;
-    animation-fill-mode: forwards ;
+    animation-fill-mode: none ;
     animation-timing-function: linear ;
+    animation-direction: alternate-reverse;
 }
-.wof-wrap.on[data-spin="stop"] .wof-wheel-disc{
-    animation-name: spin-stop;
-    animation-iteration-count: 1;
-    animation-fill-mode: both ;
-
-    animation-duration: var(--data-spin-stop-animation-duration , 4s);
-    /* animation-duration: 4s; */
-    animation-timing-function:var(--data-spin-stop-animation-timing-function , cubic-bezier(0, 0, 0.5, 1.03));
-    /* animation-timing-function: cubic-bezier(0, 0, 0.5, 1.03); */
-    /* animation-timing-function: cubic-bezier(0.35, 0.7, 0.5, 1.03); */
-    /* animation-timing-function: cubic-bezier(0, 0, 0.5, 1.1); */
-}
-
-.wof-wrap.on[data-spin="pre"] .wof-wheel-disc{
-    animation-name: spin-pre;
-    animation-duration: 0.1s;
-    animation-iteration-count: 0;
-    animation-fill-mode: forwards ;
-    animation-timing-function: linear ;
-}
-.wof-wrap.on[data-spin="now"] .wof-wheel-disc{
-    animation-name: spin-now;
-    animation-duration: 1s;
-    animation-iteration-count: 0;
-    animation-fill-mode: forwards ;
-    animation-timing-function: linear ;
-}
-
 
 /* 애니메이션 처리 */
-@keyframes spin-inf {
-    from {transform: rotate( calc(-360deg * 10 ));}
-    to {transform: rotate(0deg);}
+@keyframes spinning-wheel-btn {
+    from {filter: brightness(2);}
+    to {filter: brightness(0.5);}
 }
-@keyframes spin-stop { 
-    from {transform: rotate( calc( -360deg * 6  * var(--spin-dir) + var(--wheel-rotate-pre ) ) );}
-    to {transform: rotate(  calc( 360deg * var(--spin-dir) + var(--wheel-rotate ) ) ); } 
-}
-@keyframes spin-pre { 
-    from {transform: rotate( calc( var(--wheel-rotate-pre ) ) );}
-    to {transform: rotate(  calc( var(--wheel-rotate-pre ) ) ); } 
-}
-@keyframes spin-now { 
-    from {transform: rotate(  var(--wheel-rotate ) );}
-    to {transform: rotate(  var(--wheel-rotate ) ); } 
-}
-
 
 
