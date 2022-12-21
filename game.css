@@ -20,9 +20,8 @@
 }
 
 #wof-01  .wof-wheel-disc-section-label{
-    font-size: clamp(12px, 4vmin, 36px);
+    font-size: clamp(16px, 5vmin, 36px);
     font-weight: bold;
-    -webkit-text-stroke: 1px #ccc;
 }
 
 .wof-arrow-el {
